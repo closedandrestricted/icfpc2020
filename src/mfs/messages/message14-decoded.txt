@@ -1,3 +1,0 @@
-dem
-ap dem ap mod x0   =   x0
-ap mod ap dem x0   =   x0
