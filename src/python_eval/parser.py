@@ -7,8 +7,8 @@ import tkinter as tk
 sys.setrecursionlimit(1000000)
 
 HALF_WIDTH, HALF_HEIGHT = 196, 196
-COLORS = [(255, 255, 255), (196, 196, 196), (128, 128, 128), (64, 64, 64), (32, 32, 32), (16, 16, 16), (8, 8, 8), (4, 4, 4), (2, 2, 2)]
-SCALE_FACTOR = 3
+COLORS = [(255, 255, 255), (255, 0, 0), (0, 255, 0), (0, 0, 255), (196, 196, 196), (128, 128, 128), (64, 64, 64), (32, 32, 32), (16, 16, 16), (8, 8, 8), (4, 4, 4), (2, 2, 2)]
+SCALE_FACTOR = 6
 
 with open('./galaxy.txt', 'rt') as f:
     lines = [line.strip().split(' ') for line in f]
@@ -225,11 +225,16 @@ if __name__ == "__main__":
 
     root = tk.Tk()
 
+    def on_clickright(event):
+        x, y = map(int, input("Enter x,y: ").split(','))
+        process_click(x, y)
+
     def on_click(event):
         process_click(event.x // SCALE_FACTOR - HALF_WIDTH, event.y // SCALE_FACTOR - HALF_HEIGHT)
 
     w = tk.Canvas(root, width=SCALE_FACTOR * (2 * HALF_WIDTH + 1), height=SCALE_FACTOR * (2 * HALF_HEIGHT + 1))
     w.bind("<Button-1>", on_click)
+    w.bind("<Button-3>", on_clickright)
     w.pack()
 
     state = from_python([3, [2, [2, 1, 1, 1, 2, 2, 1, 2, 1], [6860065, 6862459, 6862465, 7549537, 7551595, 7551937, 7566001, 7568353, 7683601, 12493153, 12493195, 12610459], 103652820], 0, [192496425430]])
@@ -238,7 +243,7 @@ if __name__ == "__main__":
     # state = cons(1, cons(cons(1, nil), cons(0, cons(nil, nil))))
     # state = cons(2, cons(cons(1, cons(-1, nil)), cons(0, cons(nil, nil))))
     state = from_python([5, [2, 1, [], [], [], [], [], 44309], 9, [103652820, 192496425430]])
-    state = from_python([5, [4, 8696601566631810582, [], [], [], [], (36, 0), 44309], 9, [103652820, 192496425430]])
+    #state = from_python([5, [4, 8696601566631810582, [], [], [], [], (36, 0), 44309], 9, [103652820, 192496425430]])
     # state = from_python([6, [5, 8, 6725791729228031769, 0, 11, 0, [], [], 4, [0, [], [[[1, 1, (16, 86), (0, 0), [32, 0, 0, 1], 0, 64, 1], []], [[0, 0, (0, 16), (0, 0), [6, 0, 4, 1], 60, 64, 1], []]]], [16, 0, [512, 1, 64], [], []], [], []], 8, []])
 
     def process_click(x, y):
