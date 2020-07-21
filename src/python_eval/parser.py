@@ -10,7 +10,7 @@ HALF_WIDTH, HALF_HEIGHT = 196, 196
 COLORS = [(255, 255, 255), (196, 196, 196), (128, 128, 128), (64, 64, 64), (32, 32, 32), (16, 16, 16), (8, 8, 8), (4, 4, 4), (2, 2, 2)]
 SCALE_FACTOR = 3
 
-with open('src/mfs/messages/galaxy.txt', 'rt') as f:
+with open('./galaxy.txt', 'rt') as f:
     lines = [line.strip().split(' ') for line in f]
 
 def eager(x, deep=False):
