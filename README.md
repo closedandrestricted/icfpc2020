@@ -31,7 +31,19 @@ Main approach is to construct a swarm of small ships with 1 engine and possibly 
 
 # Navigation
 
-orbit_util.py provides main functionality used in navigation of the ships. When ran as a separate program it generates dist_to_good.npz binary data file which contains precomputed 4d integer array which for every tuple (x, y, vx, vy) specifies how many engine thrusts are needed to achieve "good" trajectory from position (x, y) if current velocity is (vx, vy). A tuple (x, y, vx, vy) is considered "good" if a ship won't go closer than 100 points to sun within 512 time ticks without spending any fuel.
+The main functionality used in navigation of the ships is provided by orbit_util.py. When ran as a separate program it generates dist_to_good.npz binary data file which contains precomputed 4d integer array which for every tuple (x, y, vx, vy) specifies how many engine thrusts are needed to achieve "good" trajectory from position (x, y) if current velocity is (vx, vy). A tuple (x, y, vx, vy) is considered "good" if a ship won't go closer than 100 points to sun within 512 time ticks without spending any fuel.
+
+Only tuples (x, y, vx, vy) with -128 <= x, y <= 128 and -10 <= vx, vy <= 10 are considered in dist_to_good.npz 
+
+# Swarm strategy
+
+## Splitting
+
+## Self destruction
+
+## Homing
+
 
 # Enemy movement prediction
 
+A simple, but effective algorithm is used for each enemy ship to predict its use of thrusters on the next turn using ThrustPredictor class (one predictor per enemy ship). Each turn it registers the ship's thrust (or (0, 0) if thrust was not used). It then adds a 1.0 point for each of 8 "predictors" saying "thrust is same as T-1", ..., "thrust is same as T-8" if that predictor is correct. Then all predictors are multiplied by 0.95 decay. Then we pick the highest predictor's score and use its prediction for the next turn engine thrust of the enemy ship. This way we can predict very well the cases of enemies using their engines in a cyclic way with a short period.
