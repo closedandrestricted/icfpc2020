@@ -37,7 +37,11 @@ Only tuples (x, y, vx, vy) with -128 <= x, y <= 128 and -10 <= vx, vy <= 10 are 
 
 # Swarm strategy
 
-## Splitting
+Swarm strategy each turn splits all ships into groups described by their (x, y, vx, vy) tuples. If more than 1 ship share same tuple their first priority is to split trajectories. Otherwise if a ship has more than 1 engine it divides itself into 2 roughly equal parts. If both trajectory is ok and dividing is not possible, then the ship would just continue moving with no fuel spent checking if self destruction is reasonable + checking if they can shift their trajectory using a bit of fuel to come closer to an enemy ship and self-destruct (aka "homing").
+
+## Splitting trajectories
+
+## Dividing the ship into smaller ships
 
 ## Self destruction
 
@@ -46,4 +50,4 @@ Only tuples (x, y, vx, vy) with -128 <= x, y <= 128 and -10 <= vx, vy <= 10 are 
 
 # Enemy movement prediction
 
-A simple, but effective algorithm is used for each enemy ship to predict its use of thrusters on the next turn using ThrustPredictor class (one predictor per enemy ship). Each turn it registers the ship's thrust (or (0, 0) if thrust was not used). It then adds a 1.0 point for each of 8 "predictors" saying "thrust is same as T-1", ..., "thrust is same as T-8" if that predictor is correct. Then all predictors are multiplied by 0.95 decay. Then we pick the highest predictor's score and use its prediction for the next turn engine thrust of the enemy ship. This way we can predict very well the cases of enemies using their engines in a cyclic way with a short period.
+A simple, but relatively effective algorithm is used for each enemy ship to predict its use of thrusters on the next turn using ThrustPredictor class (one predictor per enemy ship). Each turn it registers the ship's thrust (or (0, 0) if thrust was not used). It then adds a 1.0 point for each of 8 "predictors" saying "thrust is same as T-1", ..., "thrust is same as T-8" if that predictor is correct. Then all predictors are multiplied by 0.95 decay. Then we pick the highest predictor's score and use its prediction for the next turn engine thrust of the enemy ship. This way we can predict very well the cases of enemies using their engines in a cyclic way with a short period.
