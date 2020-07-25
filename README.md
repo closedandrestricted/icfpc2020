@@ -37,16 +37,23 @@ Only tuples (x, y, vx, vy) with -128 <= x, y <= 128 and -10 <= vx, vy <= 10 are 
 
 # Swarm strategy
 
-Swarm strategy each turn splits all ships into groups described by their (x, y, vx, vy) tuples. If more than 1 ship share same tuple their first priority is to split trajectories. Otherwise if a ship has more than 1 engine it divides itself into 2 roughly equal parts. If both trajectory is ok and dividing is not possible, then the ship would just continue moving with no fuel spent checking if self destruction is reasonable + checking if they can shift their trajectory using a bit of fuel to come closer to an enemy ship and self-destruct (aka "homing").
+Swarm strategy (swarmer.py) each turn splits all ships into groups described by their (x, y, vx, vy) tuples. If more than 1 ship share same tuple their first priority is to split trajectories. Otherwise if a ship has more than 1 engine it divides itself into 2 roughly equal parts. If both trajectory is ok and dividing is not possible, then the ship would just continue moving with no fuel spent checking if self destruction is reasonable + checking if they can shift their trajectory using a bit of fuel to come closer to an enemy ship and self-destruct (aka "homing").
 
 ## Splitting trajectories
 
+If more than 1 ship in the swarm share "orbit" (i.e. position + velocity (x, y, vx, vy) tuple), then first priority for them is to split their trajectories. The algorithm for that is finding all possible engine thrusts from (x, y, vx, vy) which would lead to a reasonably good new (x, y, vx, vy) tuple (i.e. with the smallest possible "dist_to_good"). If that best distance is reasonably good (not more than 3 for larger ships in the beginning of the battle, or exactly 0 for smaller ships). Then all possible thrusts leading to good orbits are shuffled and all ships except 1 apply one of such thrusts (if there are too many ships sharing the orbit, then some of them will have to apply same thrusts).
+
+If only one ship is one orbit and the orbit is not "good" it will try to aply an engine thrust to get closer to a "good" orbit.
+
 ## Dividing the ship into smaller ships
+
+If the ship is on the good orbit and doesn't share it with other swarm ships and number of engines/lives is more than 1, then the ship will divide into 2 roughly equal ships.
 
 ## Self destruction
 
 ## Homing
 
+# Attacker's ship with the lasers substrategy
 
 # Enemy movement prediction
 
