@@ -51,7 +51,11 @@ If the ship is on the good orbit and doesn't share it with other swarm ships and
 
 ## Self destruction
 
+For each small swarm ship we pick the enemy which is expected to be closest next turn and check whether it makes sense to self-destruct our swarmer ship: first if it will damage the enemy at all, then  compute the "gain" and if it is positive the ship will trigger self-destruction. We also then note all enemy ships which will be damaged by this and take that into account when deciding if we should have other ships self-destruct as well. The "gain" is 2x of damage we expect to deal to the enemy minus the damage we expect to deal to our ships.
+
 ## Homing
+
+After 64th time tick in the game the swarmer ships with fuel left are considering "homing" - spending a bit of fuel to change their trajectory in order to get closer to enemy ships in a few time ticks. Every turn all enemy ships' trajectories are traced 16 time ticks into the future (assuming they don't use engines to change their trajectories). Using these trajectories we considir all possible thrusts and trace the trajectories 16 ticks for them as well. If we can make minimum distance to some enemy not more than 3 (and that won't be the case without using the engines), then we pick one of such trajectory adjustment thrusts and apply it.
 
 # Attacker's ship with the lasers substrategy
 
